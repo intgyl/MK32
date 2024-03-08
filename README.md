@@ -15,6 +15,22 @@ chmod +x ./run.sh
 ./build.sh
 ./run.sh
 ```
+### build with ESP-IDF
+```
+git clone --recursive https://github.com/espressif/esp-idf.git
+cd esp-idf
+git clone https://github.com/intgyl/MK32.git
+./install.sh
+. ./export.sh
+
+cd MK32
+idf.py build
+
+flash:
+/home/gyl/source/esp-idf/MK32# /home/gyl/.espressif/python_env/idf4.4_py3.10_env/bin/python ../components/esptool_py/esptool/esptool.py -p /dev/ttyUSB0 -b 460800 --before default_reset --after hard_reset --chip esp32  write_flash --flash_mode dio --flash_size detect --flash_freq 40m 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0xd000 build/ota_data_initial.bin 0x10000 build/MK32.bin
+
+```
+
 Once you're inside the container, you can run `make` to buid, `make flash` to flash the firmware, and `make monitor` to run debug.
 ___
 
