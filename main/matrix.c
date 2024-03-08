@@ -33,10 +33,18 @@
  * GPIO34-39 can only be set as input mode and do not have software pullup or pulldown functions.
  * GPIOS 0,2,4,12-15,25-27,32-39 Can be used as RTC GPIOS as well (please read about power management in ReadMe)
  */
-const gpio_num_t MATRIX_ROWS_PINS[] = { GPIO_NUM_0, GPIO_NUM_2, GPIO_NUM_4,
-		GPIO_NUM_12, GPIO_NUM_13, GPIO_NUM_14 };
-const gpio_num_t MATRIX_COLS_PINS[] = { GPIO_NUM_15, GPIO_NUM_25, GPIO_NUM_26,
-		GPIO_NUM_27, GPIO_NUM_32, GPIO_NUM_33 };
+const gpio_num_t MATRIX_ROWS_PINS[] = {
+	GPIO_NUM_0, GPIO_NUM_2, GPIO_NUM_4,
+	GPIO_NUM_12, GPIO_NUM_13, GPIO_NUM_14
+};
+
+const gpio_num_t MATRIX_COLS_PINS[] = {
+	GPIO_NUM_15, GPIO_NUM_16, GPIO_NUM_17, GPIO_NUM_18,
+	GPIO_NUM_19, GPIO_NUM_21, GPIO_NUM_22, GPIO_NUM_23,
+	GPIO_NUM_25, GPIO_NUM_26, GPIO_NUM_27, GPIO_NUM_32,
+	GPIO_NUM_33, GPIO_NUM_5,
+	GPIO_NUM_34, GPIO_NUM_36, GPIO_NUM_39 /* input */
+};
 
 // matrix states
 uint8_t MATRIX_STATE[MATRIX_ROWS][MATRIX_COLS] = { 0 };
@@ -83,6 +91,7 @@ void rtc_matrix_deinit(void) {
 void rtc_matrix_setup(void) {
 	uint64_t rtc_mask = 0;
 
+#ifdef COL2ROW
 	// Initializing columns
 	for (uint8_t col = 0; col < MATRIX_COLS; col++) {
 
@@ -115,6 +124,42 @@ void rtc_matrix_setup(void) {
 		}
 		esp_sleep_enable_ext1_wakeup(rtc_mask, ESP_EXT1_WAKEUP_ANY_HIGH);
 	}
+#endif
+#ifdef ROW2COL
+	// Initializing row
+	for (uint8_t row = 0; row < MATRIX_ROWS; row++) {
+
+		if (rtc_gpio_is_valid_gpio(MATRIX_ROWS_PINS[row]) == 1) {
+			rtc_gpio_init((MATRIX_ROWS_PINS[row]));
+			rtc_gpio_set_direction(MATRIX_ROWS_PINS[row],
+					RTC_GPIO_MODE_INPUT_OUTPUT);
+			rtc_gpio_set_level(MATRIX_ROWS_PINS[row], 1);
+
+			ESP_LOGI(GPIO_TAG,"%d is level %d", MATRIX_ROWS_PINS[row],
+					gpio_get_level(MATRIX_ROWS_PINS[row]));
+		}
+	}
+
+	// Initializing col
+	for (uint8_t col = 0; col < MATRIX_COLS; col++) {
+
+		if (rtc_gpio_is_valid_gpio(MATRIX_COLS_PINS[col]) == 1) {
+			rtc_gpio_init((MATRIX_COLS_PINS[col]));
+			rtc_gpio_set_direction(MATRIX_COLS_PINS[col],
+					RTC_GPIO_MODE_INPUT_OUTPUT);
+			rtc_gpio_set_drive_capability(MATRIX_COLS_PINS[col],
+					GPIO_DRIVE_CAP_0);
+			rtc_gpio_set_level(MATRIX_COLS_PINS[col], 0);
+			rtc_gpio_wakeup_enable(MATRIX_COLS_PINS[col], GPIO_INTR_HIGH_LEVEL);
+			SET_BIT(rtc_mask, MATRIX_COLS_PINS[col]);
+
+			ESP_LOGI(GPIO_TAG,"%d is level %d", MATRIX_COLS_PINS[col],
+					gpio_get_level(MATRIX_COLS_PINS[col]));
+		}
+		esp_sleep_enable_ext1_wakeup(rtc_mask, ESP_EXT1_WAKEUP_ANY_HIGH);
+	}
+#endif
+
 }
 
 // Initializing matrix pins
@@ -155,7 +200,7 @@ void matrix_setup(void) {
 	}
 
 	// Initializing columns
-	for(uint8_t col=0; col < MATRIX_COLS; col++) {
+	for(uint8_t col=0; col < MATRIX_COLS - 3; col++) {
 
 		gpio_pad_select_gpio(MATRIX_COLS_PINS[col]);
 		gpio_set_direction(MATRIX_COLS_PINS[col], GPIO_MODE_INPUT_OUTPUT);
@@ -164,6 +209,14 @@ void matrix_setup(void) {
 
 		ESP_LOGI(GPIO_TAG,"%d is level %d",MATRIX_COLS_PINS[col],gpio_get_level(MATRIX_COLS_PINS[col]));
 	}
+
+	/* gpio34 gpio36 gpio39 */
+	for (uint8_t col = MATRIX_COLS - 3; col < MATRIX_COLS; col++) {
+		gpio_pad_select_gpio(MATRIX_COLS_PINS[col]);
+		gpio_set_direction(MATRIX_COLS_PINS[col], GPIO_MODE_INPUT);
+		/* gpio_set_level(MATRIX_COLS_PINS[col], 0); */
+	}
+
 #endif
 }
 
