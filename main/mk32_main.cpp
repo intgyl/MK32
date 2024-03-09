@@ -290,6 +290,7 @@ extern "C" void deep_sleep(void *pvParameters) {
 			}
 		}
 
+		sleep(60);
 	}
 
 }
