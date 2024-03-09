@@ -154,26 +154,26 @@ uint16_t default_slave_encoder_map[LAYERS][ENCODER_SIZE] = {
 
 		/*
 		 * ,------------------------------------------+------------------------------------------------------------------------------------------------------.
-		 * | Esc  |   1  |   F1 |   F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  | F9   |  F10  |  F11  |    F12  | print screen| scroll lock | pause break |
+		 * | Esc  |      |   F1 |   F2  |  F3  |  F4  |  F5  |  F6  |  F7  |  F8  | F9   |  F10  |  F11  |    F12  | print screen| scroll lock | pause break |
 		 * |------+------+------+-------+------+------+------+------+------+------+------+-------+-------+---------+-------------+-------------+-------------|
-		 * |  `   |   Q  |   2  |   3   |   4  |   5  |   6  |   7  |   8  |   9  |  0   |   -   |   =   |backspace|    insert   |     home    |   page up   |
+		 * |  `   |   1  |   2  |   3   |   4  |   5  |   6  |   7  |   8  |   9  |  0   |   -   |   =   |backspace|    insert   |     home    |   page up   |
 		 * |------+------+------+-------+------+------+------+------+------+------+------+-------+-------+---------+-------------+-------------+-------------|
-		 * | Tab  |   A  |   W  |   E   |   R  |   T  |   Y  |   U  |   I  |   O  |   P  |   [   |    ]  |   \     |    delete   |     end     |   page down |
+		 * | Tab  |   Q  |   W  |   E   |   R  |   T  |   Y  |   U  |   I  |   O  |   P  |   [   |    ]  |   \     |    delete   |     end     |   page down |
 		 * |------+------+------+-------+------+------+------+------+------+------+------+-------+-------+---------+-------------+-------------+-------------|
-		 * | Caps | Lwin |   S  |   D   |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |   '   | Enter |  Rctrl  |    left     |     down    |   right     |
+		 * | Caps |   A  |   S  |   D   |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |   '   | Enter |    up   |             |             |             |
 		 * |------+------+------+-------+------+------+------+------+------+------+------+-------+-------+---------+-------------+-------------+-------------|
-		 * |Lshift|      |   Z  |   X   |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /   |       |    up   |    Rshift   |             |             |
+		 * |Lshift|      |   Z  |   X   |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /   |       |         |    Rshift   |             |             |
 		 * |------+------+------+-------+------+------+------+------+------+------+------+-------+-------+---------+-------------+-------------+-------------|
-		 * |LCtrl |      | lAlt |       |      | Space|      |      | rAlt |  Fn  |      |  Rwin |       |         |             |             |             |
+		 * |LCtrl | Lwin | lAlt |       |      | Space|      |      | rAlt |  Fn  |      |  Rwin |       |  ctrl_r |    left     |     down    |    right    |
 		 * `------------------------------------------+--------------------------------------------------+---------+-------------+-------------+-------------'
 		 */
 
-		{KC_ESC,   KC_1,    KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,    KC_PSCR,   KC_SLCK, KC_BRK},
-		{KC_GRV,   KC_Q,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINUS, KC_EQUAL, KC_BSPC,   KC_INSERT, KC_HOME, KC_PGUP},
-		{KC_TAB,   KC_A,    KC_W,    KC_E,    KC_R,    KC_T,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  KC_RBRC,  KC_BSLASH, KC_DEL,    KC_END,  KC_PGDN},
-		{KC_CAPS,  KC_LGUI, KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,  KC_ENTER, KC_RCTL,   KC_LEFT,   KC_DOWN, KC_RIGHT},
-		{KC_LSFT,  KC_NONE, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_NONE,  KC_UP,     KC_RSFT, KC_NONE, KC_NONE},
-		{KC_LCTRL, KC_NONE, KC_LALT, KC_NONE, KC_NONE, KC_SPC, KC_NONE, KC_NONE, KC_RALT, KC_FN0,  KC_NONE, KC_RGUI,  KC_NONE,  KC_NONE,   KC_NONE,   KC_NONE, KC_NONE},
+		{KC_ESC,   KC_NONE, KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,   KC_F11,   KC_F12,    KC_PSCR,   KC_SLCK, KC_BRK},
+		{KC_GRV,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINUS, KC_EQUAL, KC_BSPC,   KC_INSERT, KC_HOME, KC_PGUP},
+		{KC_TAB,   KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_LBRC,  KC_RBRC,  KC_BSLASH, KC_DEL,    KC_END,  KC_PGDN},
+		{KC_CAPS,  KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_QUOT,  KC_ENTER, KC_UP,     KC_NONE,   KC_NONE, KC_NONE},
+		{KC_LSFT,  KC_NONE, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH,  KC_NONE,  KC_NONE,   KC_RSFT,   KC_NONE, KC_NONE},
+		{KC_LCTRL, KC_LWIN, KC_LALT, KC_NONE, KC_NONE, KC_SPC, KC_NONE, KC_NONE, KC_RALT, KC_FN0,  KC_NONE, KC_RWIN,  KC_NONE,  KC_RCTRL,  KC_LEFT,   KC_DOWN, KC_RIGHT},
 	};
 
  //Create an array that points to the various keymaps
